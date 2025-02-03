@@ -2,8 +2,18 @@ namespace CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.UpdateR
 
 public class UpdateRbacCommandHandler(IRbacRepository repository, IUserContext user, IPubSub pubsub) : IRequestHandler<UpdateRbacCommand>
 {
-    public Task Handle(UpdateRbacCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateRbacCommand request, CancellationToken cancellationToken)
     {
-        return Task.CompletedTask;
+        ApplicationGuard.IsNull(request, Errors.InvalidRequest);
+
+        var rbac = await repository.FindAsync<RbacAggregate>(request.Id, cancellationToken);
+
+        ApplicationGuard.IsNull(rbac, Errors.RbacNotFound);
+
+        rbac.Update(request.Name, request.Description, request.IsActive, user.IdUser);
+
+        await repository.UpdateAsync(rbac, cancellationToken);
+
+        await pubsub.PublishAsync(rbac.GetAndClearEvents(), cancellationToken);    
     }
 }

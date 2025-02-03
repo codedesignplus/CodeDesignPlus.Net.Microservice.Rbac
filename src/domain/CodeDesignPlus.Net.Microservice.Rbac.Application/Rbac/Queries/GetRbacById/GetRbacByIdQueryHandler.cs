@@ -1,9 +1,22 @@
 namespace CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Queries.GetRbacById;
 
-public class GetRbacByIdQueryHandler(IRbacRepository repository, IMapper mapper, IUserContext user) : IRequestHandler<GetRbacByIdQuery, RbacDto>
+public class GetRbacByIdQueryHandler(IRbacRepository repository, IMapper mapper, ICacheManager cacheManager) : IRequestHandler<GetRbacByIdQuery, RbacDto>
 {
-    public Task<RbacDto> Handle(GetRbacByIdQuery request, CancellationToken cancellationToken)
+    public async Task<RbacDto> Handle(GetRbacByIdQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult<RbacDto>(default!);
+        ApplicationGuard.IsNull(request, Errors.InvalidRequest);
+
+        var exists = await cacheManager.ExistsAsync(request.Id.ToString());
+
+        if (exists)
+            return await cacheManager.GetAsync<RbacDto>(request.Id.ToString());
+
+        var rbac = await repository.FindAsync<RbacAggregate>(request.Id, cancellationToken);
+
+        ApplicationGuard.IsNull(rbac, Errors.RbacNotFound);
+
+        await cacheManager.SetAsync(request.Id.ToString(), mapper.Map<RbacDto>(rbac));
+
+        return mapper.Map<RbacDto>(rbac);
     }
 }

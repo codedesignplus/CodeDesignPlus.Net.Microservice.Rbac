@@ -1,9 +1,13 @@
 namespace CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Queries.GetAllRbac;
 
-public class GetAllRbacQueryHandler(IRbacRepository repository, IMapper mapper, IUserContext user) : IRequestHandler<GetAllRbacQuery, RbacDto>
+public class GetAllRbacQueryHandler(IRbacRepository repository, IMapper mapper) : IRequestHandler<GetAllRbacQuery, List<RbacDto>>
 {
-    public Task<RbacDto> Handle(GetAllRbacQuery request, CancellationToken cancellationToken)
+    public async Task<List<RbacDto>> Handle(GetAllRbacQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult<RbacDto>(default!);
+        ApplicationGuard.IsNull(request, Errors.InvalidRequest);
+
+        var tenants = await repository.MatchingAsync<RbacAggregate>(request.Criteria, cancellationToken);
+
+        return mapper.Map<List<RbacDto>>(tenants);
     }
 }

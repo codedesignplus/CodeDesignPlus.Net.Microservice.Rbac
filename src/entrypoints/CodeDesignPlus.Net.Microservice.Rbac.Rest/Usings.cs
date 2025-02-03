@@ -26,3 +26,5 @@ global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.Upda
 global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.DeleteRbac;
 global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Queries.GetRbacById;
 global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Queries.GetAllRbac;
+global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.AddPermission;
+global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.RemovePermission;

@@ -2,8 +2,19 @@ namespace CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.DeleteR
 
 public class DeleteRbacCommandHandler(IRbacRepository repository, IUserContext user, IPubSub pubsub) : IRequestHandler<DeleteRbacCommand>
 {
-    public Task Handle(DeleteRbacCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteRbacCommand request, CancellationToken cancellationToken)
     {
-        return Task.CompletedTask;
+        ApplicationGuard.IsNull(request, Errors.InvalidRequest);
+
+        var aggregate = await repository.FindAsync<RbacAggregate>(request.Id, cancellationToken);
+
+        ApplicationGuard.IsNull(aggregate, Errors.RbacNotFound);
+
+        aggregate.Delete(user.IdUser);
+
+        // TODO: Remove Guid Empty
+        await repository.DeleteAsync<RbacAggregate>(aggregate.Id, Guid.Empty, cancellationToken);
+
+        await pubsub.PublishAsync(aggregate.GetAndClearEvents(), cancellationToken);
     }
 }
