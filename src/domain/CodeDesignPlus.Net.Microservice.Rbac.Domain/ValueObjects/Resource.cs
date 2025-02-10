@@ -1,11 +1,11 @@
+using System.Text.Json.Serialization;
 using CodeDesignPlus.Net.Microservice.Rbac.Domain.Enums;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 
 public sealed partial class Resource
 {
-    [GeneratedRegex(@"^0x[0-9]{32}$")]
-    private static partial Regex Regex();
+    public Guid Id { get; private set; }
 
     public string Module { get; private set; }
 
@@ -17,16 +17,17 @@ public sealed partial class Resource
 
     public HttpMethodEnum Method { get; private set; }
 
+    [JsonConstructor]
     private Resource(Guid id, string module, string service, string controller, string action, HttpMethodEnum method)
     {
+        DomainGuard.GuidIsEmpty(id, Errors.ModuleIdIsInvalid);
         DomainGuard.IsNullOrEmpty(module, Errors.ModuleIsInvalid);
         DomainGuard.IsNullOrEmpty(service, Errors.ServiceIsInvalid);
         DomainGuard.IsNullOrEmpty(controller, Errors.ControllerIsInvalid);
         DomainGuard.IsNullOrEmpty(action, Errors.ActionIsInvalid);
         DomainGuard.IsTrue(method == HttpMethodEnum.None, Errors.MethodIsInvalid);
 
-        DomainGuard.IsFalse(Regex().IsMatch(module), Errors.UnknownError);
-
+        this.Id = id;
         this.Module = module;
         this.Service = service;
         this.Controller = controller;
@@ -34,8 +35,8 @@ public sealed partial class Resource
         this.Method = method;
     }
 
-    public static Resource Create(string module, string service, string controller, string action, HttpMethodEnum method)
+    public static Resource Create(Guid id, string module, string service, string controller, string action, HttpMethodEnum method)
     {
-        return new Resource(Guid.NewGuid(), module, service, controller, action, method);
+        return new Resource(id, module, service, controller, action, method);
     }
 }

@@ -15,8 +15,10 @@ public class GetRbacByIdQueryHandler(IRbacRepository repository, IMapper mapper,
 
         ApplicationGuard.IsNull(rbac, Errors.RbacNotFound);
 
-        await cacheManager.SetAsync(request.Id.ToString(), mapper.Map<RbacDto>(rbac));
+        var dto = mapper.Map<RbacDto>(rbac);
 
-        return mapper.Map<RbacDto>(rbac);
+        await cacheManager.SetAsync(request.Id.ToString(), dto);
+
+        return dto;
     }
 }

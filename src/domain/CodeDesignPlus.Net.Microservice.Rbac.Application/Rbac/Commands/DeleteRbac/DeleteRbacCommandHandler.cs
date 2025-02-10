@@ -12,8 +12,7 @@ public class DeleteRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         aggregate.Delete(user.IdUser);
 
-        // TODO: Remove Guid Empty
-        await repository.DeleteAsync<RbacAggregate>(aggregate.Id, Guid.Empty, cancellationToken);
+        await repository.DeleteAsync<RbacAggregate>(aggregate.Id, cancellationToken);
 
         await pubsub.PublishAsync(aggregate.GetAndClearEvents(), cancellationToken);
     }

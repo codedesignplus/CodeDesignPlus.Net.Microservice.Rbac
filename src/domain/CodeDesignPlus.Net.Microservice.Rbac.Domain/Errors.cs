@@ -20,4 +20,5 @@ public class Errors : IErrorCodes
     public const string RoleIsInvalid = "115 : The role is invalid.";
     public const string ResourceIsInvalid = "116 : The resource is invalid.";
     public const string PermissionNotFound = "117 : +The permission was not found.";
+    public const string ModuleIdIsInvalid = "200 : The id of the module is invalid.";
 }
