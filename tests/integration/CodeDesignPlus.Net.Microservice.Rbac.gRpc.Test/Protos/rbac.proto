@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "CodeDesignPlus.Net.Microservice.Rbac.gRpc.Test";
+
+package Rbac;
+
+
+service Rbac {
+  rpc GetRbac (stream GetRbacRequest) returns (stream GetRbacResponse);
+}
+
+message GetRbacRequest {
+  string Id = 1;
+}
+
+message GetRbacResponse {
+
+}

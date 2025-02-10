@@ -26,7 +26,7 @@ public class UpdateRbacCommandTest
     [Fact]
     public void Should_Have_Error_When_Name_Is_Null_Or_Empty()
     {
-        var command = new UpdateRbacCommand(Guid.NewGuid(), null, "ValidDescription", true);
+        var command = new UpdateRbacCommand(Guid.NewGuid(), null!, "ValidDescription", true);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Name);
 
@@ -46,7 +46,7 @@ public class UpdateRbacCommandTest
     [Fact]
     public void Should_Have_Error_When_Description_Is_Null_Or_Empty()
     {
-        var command = new UpdateRbacCommand(Guid.NewGuid(), "ValidName", null, true);
+        var command = new UpdateRbacCommand(Guid.NewGuid(), "ValidName", null!, true);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Description);
 

@@ -10,6 +10,13 @@ public class UpdateRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         ApplicationGuard.IsNull(rbac, Errors.RbacNotFound);
 
+        if(request.IsActive)
+        {
+            var existRbacActive = await repository.HasActiveRbacAsync(request.Id, cancellationToken);
+
+            ApplicationGuard.IsFalse(existRbacActive, Errors.RbacActive);
+        }
+
         rbac.Update(request.Name, request.Description, request.IsActive, user.IdUser);
 
         await repository.UpdateAsync(rbac, cancellationToken);

@@ -28,3 +28,4 @@ global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Queries.GetRb
 global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Queries.GetAllRbac;
 global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.AddPermission;
 global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.RemovePermission;
+global using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Queries.GetRbacByMicroservice;

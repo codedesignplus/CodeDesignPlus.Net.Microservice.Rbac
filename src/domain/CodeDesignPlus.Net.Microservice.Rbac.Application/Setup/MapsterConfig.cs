@@ -49,5 +49,18 @@ public static class MapsterConfigRbac
                 Resource = Resource.Create(entity.Id, entity.Resource.Module, entity.Resource.Service, entity.Resource.Controller, entity.Resource.Action, entity.Resource.Method)
             });
 
+        TypeAdapterConfig<RbacPermissionEntity, RbacResourceDto>
+            .NewConfig()
+            .ConstructUsing(entity => new RbacResourceDto
+            {
+                Id = entity.Id,
+                Role = entity.Role.Name,
+                Module = entity.Resource.Module,                
+                Service = entity.Resource.Service,
+                Controller = entity.Resource.Controller,
+                Action = entity.Resource.Action,
+                Method = entity.Resource.Method
+            });
+
     }
 }

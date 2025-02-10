@@ -40,6 +40,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeDesignPlus.Net.Microser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeDesignPlus.Net.Microservice.Rbac.Rest.Test", "tests\unit\CodeDesignPlus.Net.Microservice.Rbac.Rest.Test\CodeDesignPlus.Net.Microservice.Rbac.Rest.Test.csproj", "{86BB4D11-6C2F-44CA-B7DF-527FDFE79959}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDesignPlus.Net.Microservice.Rbac.gRpc", "src\entrypoints\CodeDesignPlus.Net.Microservice.Rbac.gRpc\CodeDesignPlus.Net.Microservice.Rbac.gRpc.csproj", "{8D7979B3-B14D-4DF1-85D7-93AB973E716A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDesignPlus.Net.Microservice.Rbac.gRpc.Test", "tests\unit\CodeDesignPlus.Net.Microservice.Rbac.gRpc.Test\CodeDesignPlus.Net.Microservice.Rbac.gRpc.Test.csproj", "{0F130E25-D5A2-4698-8318-225046C9389E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDesignPlus.Net.Microservice.Rbac.gRpc.Test", "tests\integration\CodeDesignPlus.Net.Microservice.Rbac.gRpc.Test\CodeDesignPlus.Net.Microservice.Rbac.gRpc.Test.csproj", "{EA2A7DC4-3635-4674-A3A6-4952AF74002E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +92,18 @@ Global
 		{86BB4D11-6C2F-44CA-B7DF-527FDFE79959}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86BB4D11-6C2F-44CA-B7DF-527FDFE79959}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86BB4D11-6C2F-44CA-B7DF-527FDFE79959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D7979B3-B14D-4DF1-85D7-93AB973E716A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D7979B3-B14D-4DF1-85D7-93AB973E716A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D7979B3-B14D-4DF1-85D7-93AB973E716A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D7979B3-B14D-4DF1-85D7-93AB973E716A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F130E25-D5A2-4698-8318-225046C9389E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F130E25-D5A2-4698-8318-225046C9389E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F130E25-D5A2-4698-8318-225046C9389E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F130E25-D5A2-4698-8318-225046C9389E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA2A7DC4-3635-4674-A3A6-4952AF74002E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA2A7DC4-3635-4674-A3A6-4952AF74002E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA2A7DC4-3635-4674-A3A6-4952AF74002E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA2A7DC4-3635-4674-A3A6-4952AF74002E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +124,9 @@ Global
 		{07011B4D-501F-490B-9174-A2434B071E79} = {5769C6DB-68E8-4A8C-B43A-243401CDB4A2}
 		{B190F800-89F0-43CD-B9BD-3EDD0C2E4B37} = {5769C6DB-68E8-4A8C-B43A-243401CDB4A2}
 		{86BB4D11-6C2F-44CA-B7DF-527FDFE79959} = {5769C6DB-68E8-4A8C-B43A-243401CDB4A2}
+		{8D7979B3-B14D-4DF1-85D7-93AB973E716A} = {EBFDC2CC-2318-45BC-B619-8754439D2541}
+		{0F130E25-D5A2-4698-8318-225046C9389E} = {5769C6DB-68E8-4A8C-B43A-243401CDB4A2}
+		{EA2A7DC4-3635-4674-A3A6-4952AF74002E} = {C19E3964-BDFB-41E0-B86C-CA90E3E5F335}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91BAB16E-7151-425E-919F-2725C0813642}
