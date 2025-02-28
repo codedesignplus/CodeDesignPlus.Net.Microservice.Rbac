@@ -1,4 +1,3 @@
-using System;
 using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 using NodaTime.Serialization.SystemTextJson;
 
@@ -30,7 +29,7 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     [Fact]
     public async Task GetRbac_ReturnOk()
     {
-        var data = await this.CreateRbacAsync();
+        var data = await this.CreateRbacAsync(false);
 
         var response = await this.RequestAsync("http://localhost/api/Rbac", null, HttpMethod.Get);
 
@@ -49,7 +48,7 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     [Fact]
     public async Task GetRbacById_ReturnOk()
     {
-        var rbacCreated = await this.CreateRbacAsync();
+        var rbacCreated = await this.CreateRbacAsync(false);
 
         var response = await this.RequestAsync($"http://localhost/api/Rbac/{rbacCreated.Id}", null, HttpMethod.Get);
 
@@ -82,6 +81,8 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
 
         var response = await this.RequestAsync("http://localhost/api/Rbac", content, HttpMethod.Post);
 
+        await InactiveRbac(data);
+
         var rbac = await this.GetRecordAsync(data.Id);
 
         Assert.NotNull(response);
@@ -95,7 +96,7 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     [Fact]
     public async Task UpdateRbac_ReturnNoContent()
     {
-        var rbacCreated = await this.CreateRbacAsync();
+        var rbacCreated = await this.CreateRbacAsync(false);
 
         var data = new UpdateRbacDto()
         {
@@ -123,7 +124,7 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     [Fact]
     public async Task DeleteRbac_ReturnNoContent()
     {
-        var rbacCreated = await this.CreateRbacAsync();
+        var rbacCreated = await this.CreateRbacAsync(false);
 
         var response = await this.RequestAsync($"http://localhost/api/Rbac/{rbacCreated.Id}", null, HttpMethod.Delete);
 
@@ -135,7 +136,7 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     [Fact]
     public async Task AddPermission_ReturnNoContent()
     {
-        var rbacCreated = await this.CreateRbacAsync();
+        var rbacCreated = await this.CreateRbacAsync(false);
 
         var permission = new AddPermissionDto()
         {
@@ -171,7 +172,7 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     [Fact]
     public async Task RemovePermission_ReturnNoContent()
     {
-        var rbacCreated = await this.CreateRbacAsync();
+        var rbacCreated = await this.CreateRbacAsync(false);
 
         var permission = new AddPermissionDto()
         {
@@ -209,14 +210,13 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
         return content;
     }
 
-    private async Task<CreateRbacDto> CreateRbacAsync()
+    private async Task<CreateRbacDto> CreateRbacAsync(bool isActive)
     {
         var data = new CreateRbacDto()
         {
             Id = Guid.NewGuid(),
             Name = "Rbac Test",
-            Description = "Rbac Test",
-
+            Description = "Rbac Test"
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(data, options);
@@ -225,7 +225,27 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
 
         await this.RequestAsync("http://localhost/api/Rbac", content, HttpMethod.Post);
 
+        if (!isActive)
+            await this.InactiveRbac(data);
+
         return data;
+    }
+
+    private async Task InactiveRbac(CreateRbacDto rbac)
+    {
+        var data = new UpdateRbacDto()
+        {
+            Id = rbac.Id,
+            Name = rbac.Name,
+            Description = rbac.Description,
+            IsActive = false
+        };
+
+        var json = System.Text.Json.JsonSerializer.Serialize(data, options);
+
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        await this.RequestAsync($"http://localhost/api/Rbac/{rbac.Id}", content, HttpMethod.Put);
     }
 
     private async Task<RbacDto> GetRecordAsync(Guid id)

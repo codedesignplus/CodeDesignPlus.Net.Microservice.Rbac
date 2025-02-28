@@ -63,7 +63,12 @@ public class CreateRbacCommandHandlerTest
         var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description");
         var cancellationToken = CancellationToken.None;
 
-        repositoryMock.Setup(x => x.ExistsAsync<RbacAggregate>(request.Id, cancellationToken))
+        repositoryMock
+            .Setup(x => x.ExistsAsync<RbacAggregate>(request.Id, cancellationToken))
+            .ReturnsAsync(false);
+
+        repositoryMock
+            .Setup(x => x.HasActiveRbacAsync(userContextMock.Object.IdUser, cancellationToken))
             .ReturnsAsync(false);
 
         userContextMock.Setup(x => x.IdUser).Returns(Guid.NewGuid());

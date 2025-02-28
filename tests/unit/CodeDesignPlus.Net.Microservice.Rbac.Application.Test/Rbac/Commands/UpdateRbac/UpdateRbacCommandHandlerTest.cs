@@ -67,6 +67,11 @@ public class UpdateRbacCommandHandlerTest
         repositoryMock
             .Setup(repo => repo.FindAsync<RbacAggregate>(request.Id, cancellationToken))
             .ReturnsAsync(rbac);
+
+        repositoryMock
+            .Setup(x => x.HasActiveRbacAsync(userContextMock.Object.IdUser, cancellationToken))
+            .ReturnsAsync(false);
+
         userContextMock.SetupGet(user => user.IdUser).Returns(Guid.NewGuid());
 
         // Act

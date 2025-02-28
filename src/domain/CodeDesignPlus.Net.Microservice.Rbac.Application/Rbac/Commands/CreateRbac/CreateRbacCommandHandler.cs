@@ -12,7 +12,7 @@ public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         var existRbacActive = await repository.HasActiveRbacAsync(cancellationToken);
 
-        ApplicationGuard.IsFalse(existRbacActive, Errors.RbacActive);
+        ApplicationGuard.IsTrue(existRbacActive, Errors.RbacActive);
 
         var rbac = RbacAggregate.Create(request.Id, request.Name, request.Description, user.IdUser);
 
