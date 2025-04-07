@@ -68,11 +68,17 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     [Fact]
     public async Task CreateRbac_ReturnNoContent()
     {
+        
+        var role = Role.Create(Guid.NewGuid(), "Admin");
+        var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
+
         var data = new CreateRbacDto()
         {
             Id = Guid.NewGuid(),
             Name = "Rbac Test",
             Description = "Rbac Test",
+            Role = role,
+            Resource = resource
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(data, options);
@@ -98,11 +104,17 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     {
         var rbacCreated = await this.CreateRbacAsync(false);
 
+
+        var role = Role.Create(Guid.NewGuid(), "Admin Update");
+        var resource = Resource.Create(Guid.NewGuid(), "Custom Module Update", "Custom Service Update", "Custom Controller Update", "Custom Action Update", Domain.Enums.HttpMethodEnum.PUT);
+
         var data = new UpdateRbacDto()
         {
             Id = rbacCreated.Id,
             Name = "Rbac Test Updated",
             Description = "Rbac Test Updated",
+            Role = role,
+            Resource = resource
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(data, options);
@@ -212,11 +224,16 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
 
     private async Task<CreateRbacDto> CreateRbacAsync(bool isActive)
     {
+        var role = Role.Create(Guid.NewGuid(), "Admin");
+        var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
+
         var data = new CreateRbacDto()
         {
             Id = Guid.NewGuid(),
             Name = "Rbac Test",
-            Description = "Rbac Test"
+            Description = "Rbac Test",
+            Resource = resource,
+            Role = role,
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(data, options);
