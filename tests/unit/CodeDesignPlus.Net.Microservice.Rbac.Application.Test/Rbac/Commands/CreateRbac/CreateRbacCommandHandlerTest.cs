@@ -4,6 +4,7 @@ using Moq;
 using Xunit;
 using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.CreateRbac;
 using CodeDesignPlus.Net.Microservice.Rbac.Domain.DomainEvents;
+using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Application.Test.Rbac.Commands.CreateRbac;
 
@@ -41,7 +42,9 @@ public class CreateRbacCommandHandlerTest
     public async Task Handle_RbacAlreadyExists_ThrowsCodeDesignPlusException()
     {
         // Arrange
-        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description");
+        var role = Role.Create(Guid.NewGuid(), "Admin");
+        var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
+        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", role, resource);
         var cancellationToken = CancellationToken.None;
 
         repositoryMock
@@ -60,7 +63,9 @@ public class CreateRbacCommandHandlerTest
     public async Task Handle_ValidRequest_CreatesRbacAndPublishesEvents()
     {
         // Arrange
-        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description");
+        var role = Role.Create(Guid.NewGuid(), "Admin");
+        var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
+        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", role, resource);
         var cancellationToken = CancellationToken.None;
 
         repositoryMock

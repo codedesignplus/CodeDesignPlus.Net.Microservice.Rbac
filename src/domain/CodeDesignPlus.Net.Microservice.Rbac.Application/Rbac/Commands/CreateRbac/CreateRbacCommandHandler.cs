@@ -16,6 +16,8 @@ public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         var rbac = RbacAggregate.Create(request.Id, request.Name, request.Description, user.IdUser);
 
+        rbac.AddPermission(request.Id, request.Role, request.Resource, user.IdUser);
+
         await repository.CreateAsync(rbac, cancellationToken);
 
         await pubsub.PublishAsync(rbac.GetAndClearEvents(), cancellationToken);

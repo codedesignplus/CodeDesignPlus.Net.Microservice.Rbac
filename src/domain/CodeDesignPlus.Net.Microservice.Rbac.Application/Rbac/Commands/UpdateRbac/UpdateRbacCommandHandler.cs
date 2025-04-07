@@ -19,6 +19,8 @@ public class UpdateRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         rbac.Update(request.Name, request.Description, request.IsActive, user.IdUser);
 
+        rbac.UpdatePermission(request.Id, request.Role, request.Resource, user.IdUser);
+
         await repository.UpdateAsync(rbac, cancellationToken);
 
         await pubsub.PublishAsync(rbac.GetAndClearEvents(), cancellationToken);    

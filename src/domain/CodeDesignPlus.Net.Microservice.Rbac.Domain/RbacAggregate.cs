@@ -79,6 +79,26 @@ public class RbacAggregate(Guid id) : AggregateRootBase(id)
         AddEvent(PermissionAddedDomainEvent.Create(Id, permission.Id, permission.Role, permission.Resource));
     }
 
+    public void UpdatePermission(Guid idPermission, Role role, Resource resource, Guid updatedBy)
+    {
+        DomainGuard.GuidIsEmpty(idPermission, Errors.PermissionIdIsInvalid);
+        DomainGuard.IsNull(role, Errors.RoleIsInvalid);
+        DomainGuard.IsNull(resource, Errors.ResourceIsInvalid);
+        DomainGuard.GuidIsEmpty(updatedBy, Errors.UpdatedByIsInvalid);
+
+        var permission = this.Permissions.FirstOrDefault(x => x.Id == idPermission);
+
+        DomainGuard.IsNull(permission, Errors.PermissionNotFound);
+
+        permission.Role = role;
+        permission.Resource = resource;
+
+        this.UpdatedAt = SystemClock.Instance.GetCurrentInstant();
+        this.UpdatedBy = updatedBy;
+
+        AddEvent(PermissionUpdatedDomainEvent.Create(Id, permission.Id, permission.Role, permission.Resource));
+    }
+
     public void RemovePermission(Guid idPermission, Guid updatedBy)
     {
         DomainGuard.GuidIsEmpty(idPermission, Errors.PermissionIdIsInvalid);
