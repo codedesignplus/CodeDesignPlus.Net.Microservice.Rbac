@@ -12,7 +12,7 @@ public sealed partial class Role
     public string Name { get; private set; }
 
     [JsonConstructor]
-    private Role(Guid id, string name)
+    public Role(Guid id, string name)
     {
         DomainGuard.GuidIsEmpty(id, Errors.IdRoleIsInvalid);
         DomainGuard.IsNullOrEmpty(name, Errors.NameRoleIsInvalid);

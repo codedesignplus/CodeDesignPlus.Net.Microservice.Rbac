@@ -44,7 +44,15 @@ public class CreateRbacCommandHandlerTest
         // Arrange
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", rbacPermissions);
         var cancellationToken = CancellationToken.None;
 
         repositoryMock
@@ -65,7 +73,15 @@ public class CreateRbacCommandHandlerTest
         // Arrange
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", rbacPermissions);
         var cancellationToken = CancellationToken.None;
 
         repositoryMock

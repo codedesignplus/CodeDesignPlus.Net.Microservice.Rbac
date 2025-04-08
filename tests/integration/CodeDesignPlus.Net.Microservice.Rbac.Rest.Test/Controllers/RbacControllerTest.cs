@@ -11,8 +11,20 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
         PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
     }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
+    private readonly Guid idRbacPermission = Guid.NewGuid();
+    private readonly Role role = Role.Create(Guid.NewGuid(), "Custom Role");
+    private readonly Resource resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.GET);
+    private readonly List<RbacPermissionDto> rbacPermissions = [];
+
     public RbacControllerTest(Server<Program> server) : base(server)
     {
+        this.rbacPermissions.Add(new RbacPermissionDto()
+        {
+            Id = idRbacPermission,
+            Role = this.role,
+            Resource = this.resource
+        });
+
         server.InMemoryCollection = (x) =>
         {
             x.Add("Vault:Enable", "false");
@@ -68,17 +80,12 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     [Fact]
     public async Task CreateRbac_ReturnNoContent()
     {
-        
-        var role = Role.Create(Guid.NewGuid(), "Admin");
-        var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-
         var data = new CreateRbacDto()
         {
             Id = Guid.NewGuid(),
             Name = "Rbac Test",
             Description = "Rbac Test",
-            Role = role,
-            Resource = resource
+            RbacPermissions = rbacPermissions
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(data, options);
@@ -104,17 +111,23 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
     {
         var rbacCreated = await this.CreateRbacAsync(false);
 
+        var role = Role.Create(this.role.Id, "Admin Update");
+        var resource = Resource.Create(this.resource.Id, "Custom Module Update", "Custom Service Update", "Custom Controller Update", "Custom Action Update", Domain.Enums.HttpMethodEnum.PUT);
 
-        var role = Role.Create(Guid.NewGuid(), "Admin Update");
-        var resource = Resource.Create(Guid.NewGuid(), "Custom Module Update", "Custom Service Update", "Custom Controller Update", "Custom Action Update", Domain.Enums.HttpMethodEnum.PUT);
+        var rbacPermissions = new List<RbacPermissionDto>() {
+            new () {
+                Id = idRbacPermission,
+                Role = role,
+                Resource = resource
+            }
+        };
 
         var data = new UpdateRbacDto()
         {
             Id = rbacCreated.Id,
             Name = "Rbac Test Updated",
             Description = "Rbac Test Updated",
-            Role = role,
-            Resource = resource
+            RbacPermissions = rbacPermissions,
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(data, options);
@@ -212,28 +225,15 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
         Assert.DoesNotContain(rbac.Permissions, x => x.Id == permission.IdRbacPermission);
     }
 
-
-    private static StringContent BuildBody(object data)
-    {
-        var json = System.Text.Json.JsonSerializer.Serialize(data, options);
-
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        return content;
-    }
-
     private async Task<CreateRbacDto> CreateRbacAsync(bool isActive)
     {
-        var role = Role.Create(Guid.NewGuid(), "Admin");
-        var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
 
         var data = new CreateRbacDto()
         {
             Id = Guid.NewGuid(),
             Name = "Rbac Test",
             Description = "Rbac Test",
-            Resource = resource,
-            Role = role,
+            RbacPermissions = rbacPermissions,
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(data, options);
@@ -255,7 +255,8 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
             Id = rbac.Id,
             Name = rbac.Name,
             Description = rbac.Description,
-            IsActive = false
+            IsActive = false,
+            RbacPermissions = rbac.RbacPermissions,
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(data, options);

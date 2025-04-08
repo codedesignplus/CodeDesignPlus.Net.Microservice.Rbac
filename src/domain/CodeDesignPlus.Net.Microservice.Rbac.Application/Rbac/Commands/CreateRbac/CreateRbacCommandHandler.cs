@@ -16,7 +16,10 @@ public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         var rbac = RbacAggregate.Create(request.Id, request.Name, request.Description, user.IdUser);
 
-        rbac.AddPermission(request.Id, request.Role, request.Resource, user.IdUser);
+        foreach (var permission in request.RbacPermissions)
+        {
+            rbac.AddPermission(permission.Id, permission.Role, permission.Resource, user.IdUser);
+        }
 
         await repository.CreateAsync(rbac, cancellationToken);
 

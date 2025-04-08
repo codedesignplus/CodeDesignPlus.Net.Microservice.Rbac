@@ -10,7 +10,7 @@ public class UpdateRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         ApplicationGuard.IsNull(rbac, Errors.RbacNotFound);
 
-        if(request.IsActive)
+        if (request.IsActive)
         {
             var existRbacActive = await repository.HasActiveRbacAsync(request.Id, cancellationToken);
 
@@ -19,10 +19,13 @@ public class UpdateRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         rbac.Update(request.Name, request.Description, request.IsActive, user.IdUser);
 
-        rbac.UpdatePermission(request.Id, request.Role, request.Resource, user.IdUser);
+        foreach (var permission in request.RbacPermissions)
+        {
+            rbac.UpdatePermission(permission.Id, permission.Role, permission.Resource, user.IdUser);
+        }
 
         await repository.UpdateAsync(rbac, cancellationToken);
 
-        await pubsub.PublishAsync(rbac.GetAndClearEvents(), cancellationToken);    
+        await pubsub.PublishAsync(rbac.GetAndClearEvents(), cancellationToken);
     }
 }

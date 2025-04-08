@@ -18,7 +18,7 @@ public sealed partial class Resource
     public HttpMethodEnum Method { get; private set; }
 
     [JsonConstructor]
-    private Resource(Guid id, string module, string service, string controller, string action, HttpMethodEnum method)
+    public Resource(Guid id, string module, string service, string controller, string action, HttpMethodEnum method)
     {
         DomainGuard.GuidIsEmpty(id, Errors.ModuleIdIsInvalid);
         DomainGuard.IsNullOrEmpty(module, Errors.ModuleIsInvalid);

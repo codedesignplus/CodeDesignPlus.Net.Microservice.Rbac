@@ -1,8 +1,6 @@
-using System;
 using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.CreateRbac;
 using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 using FluentValidation.TestHelper;
-using Xunit;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Application.Test.Rbac.Commands.CreateRbac;
 
@@ -20,8 +18,15 @@ public class CreateRbacCommandTest
     {
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        
-        var command = new CreateRbacCommand(Guid.Empty, "ValidName", "ValidDescription", role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var command = new CreateRbacCommand(Guid.Empty, "ValidName", "ValidDescription", rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Id);
     }
@@ -31,8 +36,15 @@ public class CreateRbacCommandTest
     {
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        
-        var command = new CreateRbacCommand(Guid.NewGuid(), string.Empty, "ValidDescription", role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var command = new CreateRbacCommand(Guid.NewGuid(), string.Empty, "ValidDescription", rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Name);
     }
@@ -42,8 +54,15 @@ public class CreateRbacCommandTest
     {
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        
-        var command = new CreateRbacCommand(Guid.NewGuid(), new string('a', 129), "ValidDescription", role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var command = new CreateRbacCommand(Guid.NewGuid(), new string('a', 129), "ValidDescription", rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Name);
     }
@@ -53,8 +72,15 @@ public class CreateRbacCommandTest
     {
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        
-        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", string.Empty, role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", string.Empty, rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Description);
     }
@@ -64,8 +90,15 @@ public class CreateRbacCommandTest
     {
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        
-        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", new string('a', 513), role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", new string('a', 513), rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Description);
     }
@@ -75,8 +108,15 @@ public class CreateRbacCommandTest
     {
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        
-        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", "ValidDescription", role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", "ValidDescription", rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldNotHaveAnyValidationErrors();
     }

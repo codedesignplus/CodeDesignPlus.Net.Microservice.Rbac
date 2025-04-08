@@ -44,8 +44,15 @@ public class UpdateRbacCommandHandlerTest
         // Arrange
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        
-        var request = new UpdateRbacCommand(Guid.NewGuid(), "Test Name", "Test Description", true, role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = Guid.NewGuid(),
+                Role = role,
+                Resource = resource
+            }
+        };
+        var request = new UpdateRbacCommand(Guid.NewGuid(), "Test Name", "Test Description", true, rbacPermissions);
         var cancellationToken = CancellationToken.None;
 
         repositoryMock
@@ -64,12 +71,22 @@ public class UpdateRbacCommandHandlerTest
     public async Task Handle_ValidRequest_UpdatesRbacAndPublishesEvents()
     {
         // Arrange
+        var idRbacPermission = Guid.NewGuid();
         var role = Role.Create(Guid.NewGuid(), "Admin");
         var resource = Resource.Create(Guid.NewGuid(), "Custom Module", "Custom Service", "Custom Controller", "Custom Action", Domain.Enums.HttpMethodEnum.PUT);
-        
-        var request = new UpdateRbacCommand(Guid.NewGuid(), "Test Name", "Test Description", true, role, resource);
+        var rbacPermissions = new List<RbacPermissionDto>
+        {
+            new () {
+                Id = idRbacPermission,
+                Role = role,
+                Resource = resource
+            }
+        };
+        var request = new UpdateRbacCommand(Guid.NewGuid(), "Test Name", "Test Description", true, rbacPermissions);
         var cancellationToken = CancellationToken.None;
         var rbac = RbacAggregate.Create(request.Id, "Name", "Description", Guid.NewGuid());
+
+        rbac.AddPermission(idRbacPermission, role, resource, Guid.NewGuid());
 
         repositoryMock
             .Setup(repo => repo.FindAsync<RbacAggregate>(request.Id, cancellationToken))
