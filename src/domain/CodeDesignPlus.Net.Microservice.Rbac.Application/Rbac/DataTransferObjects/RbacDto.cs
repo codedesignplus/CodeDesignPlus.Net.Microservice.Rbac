@@ -9,4 +9,6 @@ public class RbacDto: IDtoBase
     public required string Description { get; set; }
 
     public required List<RbacPermissionDto> Permissions { get; set; } = [];
+    
+    public required bool IsActive { get; set; } 
 }

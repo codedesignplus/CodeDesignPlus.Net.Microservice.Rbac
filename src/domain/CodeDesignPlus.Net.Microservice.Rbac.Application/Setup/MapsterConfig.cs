@@ -26,7 +26,8 @@ public static class MapsterConfigRbac
                     Id = p.Id,
                     Role = Role.Create(p.Role.Id, p.Role.Name),
                     Resource = Resource.Create(p.Id, p.Resource.Module, p.Resource.Service, p.Resource.Controller, p.Resource.Action, p.Resource.Method)
-                }).ToList()
+                }).ToList(),
+                IsActive = x.IsActive
             });
 
         //Permission
