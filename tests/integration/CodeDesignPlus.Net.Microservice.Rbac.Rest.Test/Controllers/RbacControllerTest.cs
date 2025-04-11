@@ -1,3 +1,4 @@
+using CodeDesignPlus.Net.Core.Abstractions.Models.Pager;
 using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 using NodaTime.Serialization.SystemTextJson;
 
@@ -50,11 +51,11 @@ public class RbacControllerTest : ServerBase<Program>, IClassFixture<Server<Prog
 
         var json = await response.Content.ReadAsStringAsync();
 
-        var rbac = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<RbacDto>>(json, options);
+        var rbac = System.Text.Json.JsonSerializer.Deserialize<Pagination<RbacDto>>(json, options);
 
         Assert.NotNull(rbac);
-        Assert.NotEmpty(rbac);
-        Assert.Contains(rbac, x => x.Id == data.Id);
+        Assert.NotEmpty(rbac.Data);
+        Assert.Contains(rbac.Data, x => x.Id == data.Id);
     }
 
     [Fact]
