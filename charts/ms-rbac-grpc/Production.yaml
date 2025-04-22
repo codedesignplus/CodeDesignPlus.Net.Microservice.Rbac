@@ -1,14 +1,15 @@
 ms-base:
+  environment: Production
   replicaCount: 1
 
   image:
-    repository: codedesignplus/ms-rbac-rest
+    repository: codedesignplus/ms-rbac-grpc
     pullPolicy: IfNotPresent
     tag: "v0.1.0-alpha.100"
 
   imagePullSecrets: []
-  fullnameOverride: "ms-rbac-rest"
-  nameOverride: "ms-rbac-rest"
+  fullnameOverride: "ms-rbac-grpc"
+  nameOverride: "ms-rbac-grpc"
 
   serviceAccount:
     create: true
@@ -91,20 +92,4 @@ ms-base:
   affinity: {}
 
   virtualService: 
-    create: true
-    hosts:
-      - services.codedesignplus.com
-    gateways:
-      - services-gateway
-    http:
-    - name: ms-rbac
-      match:
-      - uri:
-          prefix: /ms-rbac/
-      rewrite:
-        uri: /
-      route:
-      - destination:
-          host: ms-rbac-rest.default.svc.cluster.local
-          port:
-            number: 5000
+    create: false
