@@ -21,7 +21,7 @@ jobs:
       microservice-name: ms-rbac
       environment: Development
     secrets: inherit
-  
+   
   sonarqube:
     needs: build
     if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/rc' || github.ref == 'refs/heads/dev' }}
