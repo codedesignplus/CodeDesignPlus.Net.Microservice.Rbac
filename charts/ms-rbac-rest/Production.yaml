@@ -97,7 +97,7 @@ ms-base:
     hosts:
       - services.codedesignplus.com
     gateways:
-      - services-gateway
+      - istio-ingress/services-gateway
     http:
     - name: ms-rbac
       match:
@@ -107,6 +107,6 @@ ms-base:
         uri: /
       route:
       - destination:
-          host: ms-rbac-rest.default.svc.cluster.local
+          host: ms-rbac-rest.urbancore.svc.cluster.local
           port:
             number: 5000
