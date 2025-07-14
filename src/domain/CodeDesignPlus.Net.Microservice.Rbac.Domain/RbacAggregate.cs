@@ -52,9 +52,10 @@ public class RbacAggregate(Guid id) : AggregateRootBase(id)
     {
         DomainGuard.GuidIsEmpty(deletedBy, Errors.DeletedByIsInvalid);
 
+        this.IsDeleted = true;
         this.IsActive = false;
-        this.UpdatedAt = SystemClock.Instance.GetCurrentInstant();
-        this.UpdatedBy = deletedBy;
+        this.DeletedAt = SystemClock.Instance.GetCurrentInstant();
+        this.DeletedBy = deletedBy;
 
         AddEvent(RbacDeletedDomainEvent.Create(Id, Name, Description, Permissions, IsActive));
     }
