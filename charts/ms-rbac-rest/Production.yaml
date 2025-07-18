@@ -111,6 +111,6 @@ ms-base:
         uri: /
       route:
       - destination:
-          host: ms-rbac-rest.urbancore.svc.cluster.local
+          host: ms-rbac-rest.codedesignplus.svc.cluster.local
           port:
             number: 5000
