@@ -2,7 +2,7 @@ using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Domain.DomainEvents;
 
-[EventKey<RbacAggregate>(1, "PermissionAddedDomainEvent")]
+[EventKey<RbacAggregate>(1, "PermissionAddedDomainEvent", autoCreate: false)]
 public class PermissionAddedDomainEvent(
     Guid aggregateId,
     Guid idRbacPermission, 

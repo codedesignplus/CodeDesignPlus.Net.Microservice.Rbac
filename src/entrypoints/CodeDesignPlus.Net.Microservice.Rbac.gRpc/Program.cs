@@ -1,3 +1,4 @@
+using CodeDesignPlus.Net.gRpc.Clients.Extensions;
 using CodeDesignPlus.Net.Logger.Extensions;
 using CodeDesignPlus.Net.Microservice.Commons.EntryPoints.gRpc.Interceptors;
 using CodeDesignPlus.Net.Microservice.Commons.FluentValidation;
@@ -39,6 +40,7 @@ builder.Services.AddObservability(builder.Configuration, builder.Environment);
 builder.Services.AddLogger(builder.Configuration);
 builder.Services.AddCache(builder.Configuration);
 builder.Services.AddHealthChecksServices();
+builder.Services.AddGrpcClients(builder.Configuration);
 
 var app = builder.Build();
 

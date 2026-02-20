@@ -2,7 +2,7 @@ using CodeDesignPlus.Net.Microservice.Rbac.Domain.Entities;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Domain.DomainEvents;
 
-[EventKey<RbacAggregate>(1, "RbacUpdatedDomainEvent")]
+[EventKey<RbacAggregate>(1, "RbacUpdatedDomainEvent", autoCreate: false)]
 public class RbacUpdatedDomainEvent(
     Guid aggregateId,
     string name,
@@ -22,8 +22,8 @@ public class RbacUpdatedDomainEvent(
 
     public bool IsActive { get; private set; } = isActive;
 
-    public static RbacCreatedDomainEvent Create(Guid aggregateId, string name, string description, List<RbacPermissionEntity> permissions, bool isActive)
+    public static RbacUpdatedDomainEvent Create(Guid aggregateId, string name, string description, List<RbacPermissionEntity> permissions, bool isActive)
     {
-        return new RbacCreatedDomainEvent(aggregateId, name, description, permissions, isActive);
+        return new RbacUpdatedDomainEvent(aggregateId, name, description, permissions, isActive);
     }
 }

@@ -2,7 +2,7 @@ using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Domain.DomainEvents;
 
-[EventKey<RbacAggregate>(1, "PermissionRemovedDomainEvent")]
+[EventKey<RbacAggregate>(1, "PermissionRemovedDomainEvent", autoCreate: false)]
 public class PermissionRemovedDomainEvent(
     Guid aggregateId,
     Guid idRbacPermission, 

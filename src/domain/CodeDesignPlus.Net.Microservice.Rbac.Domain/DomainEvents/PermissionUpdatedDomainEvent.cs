@@ -3,7 +3,7 @@ using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Domain.DomainEvents;
 
-[EventKey<RbacAggregate>(1, "PermissionUpdatedDomainEvent")]
+[EventKey<RbacAggregate>(1, "PermissionUpdatedDomainEvent", autoCreate: false)]
 public class PermissionUpdatedDomainEvent(
     Guid aggregateId,
     Guid idRbacPermission, 
