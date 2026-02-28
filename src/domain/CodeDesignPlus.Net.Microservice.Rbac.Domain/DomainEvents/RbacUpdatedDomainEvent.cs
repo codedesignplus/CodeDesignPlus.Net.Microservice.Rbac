@@ -2,7 +2,7 @@ using CodeDesignPlus.Net.Microservice.Rbac.Domain.Entities;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Domain.DomainEvents;
 
-[EventKey<RbacAggregate>(1, "RbacUpdatedDomainEvent", autoCreate: false)]
+[EventKey<RbacAggregate>(1, "RbacUpdatedDomainEvent")]
 public class RbacUpdatedDomainEvent(
     Guid aggregateId,
     string name,

@@ -2,7 +2,7 @@ using CodeDesignPlus.Net.Microservice.Rbac.Domain.Entities;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.Domain.DomainEvents;
 
-[EventKey<RbacAggregate>(1, "RbacDeletedDomainEvent", autoCreate: false)]
+[EventKey<RbacAggregate>(1, "RbacDeletedDomainEvent")]
 public class RbacDeletedDomainEvent(
     Guid aggregateId,
     string name,
