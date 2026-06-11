@@ -3,6 +3,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/domain/", "domain/"]
 COPY ["src/entrypoints/CodeDesignPlus.Net.Microservice.Rbac.Rest/", "entrypoints/CodeDesignPlus.Net.Microservice.Rbac.Rest/"]
+COPY ["nuget.config", "nuget.config"]
 RUN dotnet restore "./entrypoints/CodeDesignPlus.Net.Microservice.Rbac.Rest/CodeDesignPlus.Net.Microservice.Rbac.Rest.csproj"
 
 FROM build AS publish
