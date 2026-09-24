@@ -12,7 +12,7 @@ public class RbacService(IMediator mediator) : Rbac.RbacBase
 
         var result = await mediator.Send(query);
 
-        InfrastructureGuard.IsNull(result, "301 : The resource was not found");
+        InfrastructureGuard.IsNull(result, Infrastructure.Errors.ResourceNotFound);
 
         var response = new GetRbacResponse();
 
