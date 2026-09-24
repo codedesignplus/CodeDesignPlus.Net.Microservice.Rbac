@@ -1,0 +1,10 @@
+{
+  "language": "en",
+  "errors": {
+    "200": "UnknownError",
+    "201": "The request is invalid.",
+    "202": "The Rbac already exists.",
+    "203": "The Rbac does not exist.",
+    "204": "There is already an active Rbac."
+  }
+}

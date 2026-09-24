@@ -1,0 +1,24 @@
+{
+  "language": "en",
+  "errors": {
+    "100": "UnknownError",
+    "101": "The id of the role is invalid.",
+    "102": "The name of the role is invalid.",
+    "103": "The module is invalid.",
+    "104": "The service is invalid.",
+    "105": "The controller is invalid.",
+    "106": "The action is invalid.",
+    "107": "The method is invalid.",
+    "108": "The name of the rbac is invalid.",
+    "109": "The description of the role is invalid.",
+    "110": "The id of the rbac is invalid.",
+    "111": "The created by is invalid.",
+    "112": "The updated by is invalid.",
+    "113": "The deleted by is invalid.",
+    "114": "The id of the permission is invalid.",
+    "115": "The role is invalid.",
+    "116": "The resource is invalid.",
+    "117": "The permission was not found.",
+    "205": "The id of the module is invalid."
+  }
+}
