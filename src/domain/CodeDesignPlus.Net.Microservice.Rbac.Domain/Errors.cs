@@ -21,6 +21,6 @@ public class Errors : IErrorCodes
     public static readonly Error PermissionIdIsInvalid = new("114", "The id of the permission is invalid.");
     public static readonly Error RoleIsInvalid = new("115", "The role is invalid.");
     public static readonly Error ResourceIsInvalid = new("116", "The resource is invalid.");
-    public static readonly Error PermissionNotFound = new("117", "+The permission was not found.");
+    public static readonly Error PermissionNotFound = new("117", "The permission was not found.");
     public static readonly Error ModuleIdIsInvalid = new("205", "The id of the module is invalid.");
 }
