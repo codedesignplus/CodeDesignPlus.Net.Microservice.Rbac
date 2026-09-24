@@ -1,0 +1,10 @@
+{
+  "language": "pt",
+  "errors": {
+    "200": "Erro desconhecido.",
+    "201": "A requisição não é válida.",
+    "202": "Essa configuração de permissões já existe.",
+    "203": "Não encontramos essa configuração de permissões.",
+    "204": "Já há uma configuração de permissões ativa."
+  }
+}

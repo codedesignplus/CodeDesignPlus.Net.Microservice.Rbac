@@ -1,0 +1,10 @@
+{
+  "language": "fr",
+  "errors": {
+    "200": "Erreur inconnue.",
+    "201": "La requête n'est pas valide.",
+    "202": "Cette configuration d'autorisations existe déjà.",
+    "203": "Configuration d'autorisations introuvable.",
+    "204": "Une configuration d'autorisations est déjà active."
+  }
+}

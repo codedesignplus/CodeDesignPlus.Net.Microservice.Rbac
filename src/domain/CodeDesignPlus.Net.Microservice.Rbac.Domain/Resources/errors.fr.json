@@ -1,0 +1,24 @@
+{
+  "language": "fr",
+  "errors": {
+    "100": "Erreur inconnue.",
+    "101": "L'identifiant du rôle n'est pas valide.",
+    "102": "Le nom du rôle n'est pas valide.",
+    "103": "Le module n'est pas valide.",
+    "104": "Le service n'est pas valide.",
+    "105": "Le contrôleur n'est pas valide.",
+    "106": "L'action n'est pas valide.",
+    "107": "La méthode n'est pas valide.",
+    "108": "Le nom de la configuration d'autorisations n'est pas valide.",
+    "109": "La description du rôle n'est pas valide.",
+    "110": "L'identifiant de la configuration d'autorisations n'est pas valide.",
+    "111": "L'identifiant du créateur n'est pas valide.",
+    "112": "L'identifiant de l'auteur de la modification n'est pas valide.",
+    "113": "L'identifiant de l'auteur de la suppression n'est pas valide.",
+    "114": "L'identifiant de l'autorisation n'est pas valide.",
+    "115": "Le rôle n'est pas valide.",
+    "116": "La ressource n'est pas valide.",
+    "117": "Autorisation introuvable.",
+    "205": "L'identifiant du module n'est pas valide."
+  }
+}

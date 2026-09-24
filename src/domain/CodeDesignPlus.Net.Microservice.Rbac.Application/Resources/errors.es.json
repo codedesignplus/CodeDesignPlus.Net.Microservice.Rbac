@@ -1,10 +1,10 @@
 {
   "language": "es",
   "errors": {
-    "200": "",
-    "201": "",
-    "202": "",
-    "203": "",
-    "204": ""
+    "200": "Error desconocido.",
+    "201": "La petición no es válida.",
+    "202": "Esa configuración de permisos ya existe.",
+    "203": "No encontramos esa configuración de permisos.",
+    "204": "Ya hay una configuración de permisos activa."
   }
 }

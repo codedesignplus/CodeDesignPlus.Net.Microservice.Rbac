@@ -1,0 +1,24 @@
+{
+  "language": "pt",
+  "errors": {
+    "100": "Erro desconhecido.",
+    "101": "O identificador do papel não é válido.",
+    "102": "O nome do papel não é válido.",
+    "103": "O módulo não é válido.",
+    "104": "O serviço não é válido.",
+    "105": "O controlador não é válido.",
+    "106": "A ação não é válida.",
+    "107": "O método não é válido.",
+    "108": "O nome da configuração de permissões não é válido.",
+    "109": "A descrição do papel não é válida.",
+    "110": "O identificador da configuração de permissões não é válido.",
+    "111": "O identificador de quem cria não é válido.",
+    "112": "O identificador de quem altera não é válido.",
+    "113": "O identificador de quem exclui não é válido.",
+    "114": "O identificador da permissão não é válido.",
+    "115": "O papel não é válido.",
+    "116": "O recurso não é válido.",
+    "117": "Não encontramos essa permissão.",
+    "205": "O identificador do módulo não é válido."
+  }
+}
