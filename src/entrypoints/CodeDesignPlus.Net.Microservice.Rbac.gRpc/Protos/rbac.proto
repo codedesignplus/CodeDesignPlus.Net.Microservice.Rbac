@@ -30,4 +30,7 @@ enum HttpMethod {
   Put = 2;
   Delete = 3;
   Get = 4;
+  // Anadido al final para no mover los numeros que ya viajan (el SDK tiene el mismo). El dominio numera distinto
+  // (GET = 5, PATCH = 4): RbacService traduce con un switch, nunca con un cast (plan 031 de pendings).
+  Patch = 5;
 }

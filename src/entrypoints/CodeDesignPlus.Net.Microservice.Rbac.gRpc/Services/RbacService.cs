@@ -1,6 +1,7 @@
 
 using CodeDesignPlus.Net.Exceptions.Guards;
 using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Queries.GetRbacByMicroservice;
+using CodeDesignPlus.Net.Microservice.Rbac.Domain.Enums;
 
 namespace CodeDesignPlus.Net.Microservice.Rbac.gRpc.Services;
 
@@ -24,10 +25,25 @@ public class RbacService(IMediator mediator) : Rbac.RbacBase
                 Module = x.Module,
                 Action = x.Action,
                 Controller = x.Controller,
-                Method = (HttpMethod)x.Method,
+                Method = ToProto(x.Method),
             };
         }));
 
         return response;
     }
+
+    /// <summary>
+    /// Traduce el verbo del dominio al del gRPC. Los dos enums numeran distinto (en el dominio GET es 5 y PATCH es 4;
+    /// en el proto GET es 4 y PATCH es 5), asi que un cast enviaba los GET con un numero que el SDK no conoce y los
+    /// PATCH como GET (plan 031 de pendings).
+    /// </summary>
+    public static HttpMethod ToProto(HttpMethodEnum method) => method switch
+    {
+        HttpMethodEnum.GET => HttpMethod.Get,
+        HttpMethodEnum.POST => HttpMethod.Post,
+        HttpMethodEnum.PUT => HttpMethod.Put,
+        HttpMethodEnum.PATCH => HttpMethod.Patch,
+        HttpMethodEnum.DELETE => HttpMethod.Delete,
+        _ => HttpMethod.None
+    };
 }

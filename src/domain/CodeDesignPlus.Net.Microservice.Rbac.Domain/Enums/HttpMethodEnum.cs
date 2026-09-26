@@ -6,6 +6,7 @@ public enum HttpMethodEnum
     POST,
     PUT,
     DELETE,
-    PATH,
+    // Era "PATH", una errata. Se guarda el numero (4), no el nombre, asi que renombrarlo no toca los datos.
+    PATCH,
     GET
 }
