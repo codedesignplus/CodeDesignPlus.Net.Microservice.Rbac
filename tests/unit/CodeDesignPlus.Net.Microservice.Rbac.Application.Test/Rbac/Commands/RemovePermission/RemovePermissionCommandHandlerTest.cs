@@ -9,6 +9,7 @@ public class RemovePermissionCommandHandlerTest
     private readonly Mock<IRbacRepository> repositoryMock;
     private readonly Mock<IUserContext> userContextMock;
     private readonly Mock<IPubSub> pubSubMock;
+    private readonly Mock<ICacheManager> cacheManagerMock = new();
     private readonly RemovePermissionCommandHandler handler;
 
     public RemovePermissionCommandHandlerTest()
@@ -16,7 +17,7 @@ public class RemovePermissionCommandHandlerTest
         repositoryMock = new Mock<IRbacRepository>();
         userContextMock = new Mock<IUserContext>();
         pubSubMock = new Mock<IPubSub>();
-        handler = new RemovePermissionCommandHandler(repositoryMock.Object, userContextMock.Object, pubSubMock.Object);
+        handler = new RemovePermissionCommandHandler(repositoryMock.Object, userContextMock.Object, pubSubMock.Object, cacheManagerMock.Object);
     }
 
     [Fact]

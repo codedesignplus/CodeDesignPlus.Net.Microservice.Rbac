@@ -1,6 +1,6 @@
 namespace CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.CreateRbac;
 
-public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext user, IPubSub pubsub) : IRequestHandler<CreateRbacCommand>
+public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext user, IPubSub pubsub, ICacheManager cacheManager) : IRequestHandler<CreateRbacCommand>
 {
     public async Task Handle(CreateRbacCommand request, CancellationToken cancellationToken)
     {
@@ -22,6 +22,9 @@ public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext u
         }
 
         await repository.CreateAsync(rbac, cancellationToken);
+
+        // Un micro que consulto antes de existir el RBAC tiene cacheada su lista vacia.
+        await cacheManager.InvalidateAsync(RbacCache.Keys(rbac));
 
         await pubsub.PublishAsync(rbac.GetAndClearEvents(), cancellationToken);
     }

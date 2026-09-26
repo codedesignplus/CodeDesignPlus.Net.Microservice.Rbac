@@ -100,6 +100,29 @@ public class RbacAggregate(Guid id) : AggregateRootBase(id)
         AddEvent(PermissionUpdatedDomainEvent.Create(Id, permission.Id, permission.Role, permission.Resource));
     }
 
+    /// <summary>
+    /// Deja los permisos exactamente iguales a los recibidos: los que ya existen (por id) se actualizan, los nuevos se
+    /// agregan y los que no vienen se quitan. Es lo que envia la pantalla al editar: la lista completa de lo marcado,
+    /// con un id nuevo para cada permiso recien marcado (plan 029 de pendings).
+    /// </summary>
+    public void ReplacePermissions(IReadOnlyCollection<(Guid Id, Role Role, Resource Resource)> permissions, Guid updatedBy)
+    {
+        DomainGuard.IsNull(permissions, Errors.ResourceIsInvalid);
+
+        var ids = permissions.Select(x => x.Id).ToHashSet();
+
+        foreach (var removed in this.Permissions.Where(x => !ids.Contains(x.Id)).ToList())
+            RemovePermission(removed.Id, updatedBy);
+
+        foreach (var (id, role, resource) in permissions)
+        {
+            if (this.Permissions.Any(x => x.Id == id))
+                UpdatePermission(id, role, resource, updatedBy);
+            else
+                AddPermission(id, role, resource, updatedBy);
+        }
+    }
+
     public void RemovePermission(Guid idPermission, Guid updatedBy)
     {
         DomainGuard.GuidIsEmpty(idPermission, Errors.PermissionIdIsInvalid);

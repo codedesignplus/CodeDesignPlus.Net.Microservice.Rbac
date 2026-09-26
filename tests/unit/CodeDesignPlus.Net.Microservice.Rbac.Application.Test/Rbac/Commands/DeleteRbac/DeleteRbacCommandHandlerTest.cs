@@ -8,6 +8,7 @@ public class DeleteRbacCommandHandlerTest
     private readonly Mock<IRbacRepository> repositoryMock;
     private readonly Mock<IUserContext> userContextMock;
     private readonly Mock<IPubSub> pubSubMock;
+    private readonly Mock<ICacheManager> cacheManagerMock = new();
     private readonly DeleteRbacCommandHandler handler;
 
     public DeleteRbacCommandHandlerTest()
@@ -15,7 +16,7 @@ public class DeleteRbacCommandHandlerTest
         repositoryMock = new Mock<IRbacRepository>();
         userContextMock = new Mock<IUserContext>();
         pubSubMock = new Mock<IPubSub>();
-        handler = new DeleteRbacCommandHandler(repositoryMock.Object, userContextMock.Object, pubSubMock.Object);
+        handler = new DeleteRbacCommandHandler(repositoryMock.Object, userContextMock.Object, pubSubMock.Object, cacheManagerMock.Object);
     }
 
     [Fact]

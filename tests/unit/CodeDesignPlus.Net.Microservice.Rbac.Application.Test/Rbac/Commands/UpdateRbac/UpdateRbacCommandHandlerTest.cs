@@ -13,6 +13,7 @@ public class UpdateRbacCommandHandlerTest
     private readonly Mock<IRbacRepository> repositoryMock;
     private readonly Mock<IUserContext> userContextMock;
     private readonly Mock<IPubSub> pubSubMock;
+    private readonly Mock<ICacheManager> cacheManagerMock = new();
     private readonly UpdateRbacCommandHandler handler;
 
     public UpdateRbacCommandHandlerTest()
@@ -20,7 +21,7 @@ public class UpdateRbacCommandHandlerTest
         repositoryMock = new Mock<IRbacRepository>();
         userContextMock = new Mock<IUserContext>();
         pubSubMock = new Mock<IPubSub>();
-        handler = new UpdateRbacCommandHandler(repositoryMock.Object, userContextMock.Object, pubSubMock.Object);
+        handler = new UpdateRbacCommandHandler(repositoryMock.Object, userContextMock.Object, pubSubMock.Object, cacheManagerMock.Object);
     }
 
     [Fact]

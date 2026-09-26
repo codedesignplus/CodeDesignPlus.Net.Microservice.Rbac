@@ -2,6 +2,7 @@ global using CodeDesignPlus.Net.Core.Abstractions;
 global using CodeDesignPlus.Net.Exceptions.Extensions;
 global using CodeDesignPlus.Net.PubSub.Abstractions;
 global using Moq;
+global using CodeDesignPlus.Net.Cache.Abstractions;
 global using System;
 global using CodeDesignPlus.Net.Security.Abstractions;
 global using CodeDesignPlus.Net.Exceptions;

@@ -1,6 +1,6 @@
 namespace CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.AddPermission;
 
-public class AddPermissionCommandHandler(IRbacRepository repository, IUserContext user, IPubSub pubsub) : IRequestHandler<AddPermissionCommand>
+public class AddPermissionCommandHandler(IRbacRepository repository, IUserContext user, IPubSub pubsub, ICacheManager cacheManager) : IRequestHandler<AddPermissionCommand>
 {
     public async Task Handle(AddPermissionCommand request, CancellationToken cancellationToken)
     {
@@ -13,6 +13,8 @@ public class AddPermissionCommandHandler(IRbacRepository repository, IUserContex
         rbac.AddPermission(request.IdRbacPermission, request.Role, request.Resource, user.IdUser);
 
         await repository.UpdateAsync(rbac, cancellationToken);
+
+        await cacheManager.InvalidateAsync(RbacCache.Keys(rbac));
 
         await pubsub.PublishAsync(rbac.GetAndClearEvents(), cancellationToken);   
     }
