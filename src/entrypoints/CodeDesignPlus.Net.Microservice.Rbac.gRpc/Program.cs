@@ -1,4 +1,4 @@
-﻿using CodeDesignPlus.Net.Observability.Interceptors;
+using CodeDesignPlus.Net.Observability.Interceptors;
 using CodeDesignPlus.Net.gRpc.Clients.Extensions;
 using CodeDesignPlus.Net.Logger.Extensions;
 using CodeDesignPlus.Net.Microservice.Commons.EntryPoints.gRpc.Interceptors;
@@ -52,7 +52,11 @@ app.UseHealthChecks();
 
 app.UseAuth();
 
-app.MapGrpcService<RbacService>().RequireAuthorization();
+// Anonimo, como el gRPC de ms-users: quien llama es el SDK de cada micro, en segundo plano al arrancar y cada pocos
+// minutos (RefreshRbacBackgroundService), sin ninguna peticion de usuario ni token que reenviar. Con
+// RequireAuthorization, heredado de la plantilla, respondia 401 y ningun micro podia cargar sus permisos (plan 036).
+// El servicio es ClusterIP y ningun ingress lo publica: solo se alcanza desde dentro del cluster.
+app.MapGrpcService<RbacService>().AllowAnonymous();
 
 if (app.Environment.IsDevelopment())
 {
