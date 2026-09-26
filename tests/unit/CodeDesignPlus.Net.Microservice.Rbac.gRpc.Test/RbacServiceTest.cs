@@ -26,7 +26,7 @@ public class RbacServiceTest
         var mediator = new Mock<IMediator>();
         mediator
             .Setup(x => x.Send(It.IsAny<Application.Rbac.Queries.GetRbacByMicroservice.GetRbacByMicroserviceQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([new RbacResourceDto { Role = "Revisor Fiscal", Module = "PruebaRbac", Controller = "Rbac", Action = "GetRbac", Method = HttpMethodEnum.GET }]);
+            .ReturnsAsync([new RbacResourceDto { Role = "20000000-0000-0000-0000-000000000008", Module = "PruebaRbac", Controller = "Rbac", Action = "GetRbac", Method = HttpMethodEnum.GET }]);
 
         var response = await new RbacService(mediator.Object).GetRbac(new GetRbacRequest { Microservice = "ms-rbac" }, null!);
 

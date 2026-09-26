@@ -1,4 +1,4 @@
-﻿using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
+using CodeDesignPlus.Net.Microservice.Rbac.Domain.ValueObjects;
 using CodeDesignPlus.Microservice.Api.Dtos;
 using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.CreateRbac;
 using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.Commands.UpdateRbac;
@@ -50,13 +50,16 @@ public static class MapsterConfigRbac
                 Resource = Resource.Create(entity.Id, entity.Resource.Module, entity.Resource.Service, entity.Resource.Controller, entity.Resource.Action, entity.Resource.Method)
             });
 
+        // MapWith y no ConstructUsing: con ConstructUsing, Mapster sigue mapeando por nombre despues de construir y
+        // pisaba Role con Role.ToString() del objeto de valor, asi que el SDK recibia el nombre de la clase. El rol va
+        // como el id del catalogo de ms-roles, que es lo que devuelve el directorio de roles (plan 035 de pendings).
         TypeAdapterConfig<RbacPermissionEntity, RbacResourceDto>
             .NewConfig()
-            .ConstructUsing(entity => new RbacResourceDto
+            .MapWith(entity => new RbacResourceDto
             {
                 Id = entity.Id,
-                Role = entity.Role.Name,
-                Module = entity.Resource.Module,                
+                Role = entity.Role.Id.ToString(),
+                Module = entity.Resource.Module,
                 Service = entity.Resource.Service,
                 Controller = entity.Resource.Controller,
                 Action = entity.Resource.Action,
