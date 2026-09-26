@@ -80,7 +80,7 @@ public class RbacCacheInvalidationTest
         repository.Setup(x => x.HasActiveRbacAsync(It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         var id = Guid.NewGuid();
-        var request = new CreateRbacCommand(id, "PruebaGuia", "Prueba",
+        var request = new CreateRbacCommand(id, "PruebaGuia", "Prueba", true,
         [
             new() { Id = Guid.NewGuid(), Role = Auditor, Resource = Endpoint("ms-rbac", "GetRbac") },
         ]);

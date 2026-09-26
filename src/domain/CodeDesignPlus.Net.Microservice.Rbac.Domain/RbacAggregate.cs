@@ -19,18 +19,31 @@ public class RbacAggregate(Guid id) : AggregateRootBase(id)
         this.IsActive = true;
         this.CreatedAt = SystemClock.Instance.GetCurrentInstant();
         this.CreatedBy = createdBy;
-
-        AddEvent(RbacCreatedDomainEvent.Create(Id, Name, Description, Permissions, IsActive));
     }
 
     public static RbacAggregate Create(Guid id, string name, string description, Guid createdBy)
+        => Create(id, name, description, true, createdBy);
+
+    /// <summary>
+    /// Crea la configuracion. Una inactiva es un borrador: se puede preparar mientras otra esta activa, porque el SDK
+    /// solo carga los permisos de la activa (plan 032 de pendings).
+    /// </summary>
+    /// <remarks>
+    /// El estado se asigna aqui y no en el constructor, que Mongo usa al leer (regla 31); por eso el evento de creacion
+    /// tambien se emite aqui, ya con el estado real.
+    /// </remarks>
+    public static RbacAggregate Create(Guid id, string name, string description, bool isActive, Guid createdBy)
     {
         DomainGuard.GuidIsEmpty(id, Errors.RbacIdIsInvalid);
         DomainGuard.IsNullOrEmpty(name, Errors.RbacNameIsInvalid);
         DomainGuard.IsNullOrEmpty(description, Errors.DescriptionRoleIsInvalid);
         DomainGuard.GuidIsEmpty(createdBy, Errors.CreatedByIsInvalid);
 
-        return new RbacAggregate(id, name, description, createdBy);
+        var rbac = new RbacAggregate(id, name, description, createdBy) { IsActive = isActive };
+
+        rbac.AddEvent(RbacCreatedDomainEvent.Create(rbac.Id, rbac.Name, rbac.Description, rbac.Permissions, rbac.IsActive));
+
+        return rbac;
     }
 
     public void Update(string name, string description, bool isActive, Guid updatedBy)

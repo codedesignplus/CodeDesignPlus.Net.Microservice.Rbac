@@ -10,11 +10,15 @@ public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext u
 
         ApplicationGuard.IsTrue(exist, Errors.RbacAlreadyExists);
 
-        var existRbacActive = await repository.HasActiveRbacAsync(cancellationToken);
+        // Solo puede haber una configuracion activa; una inactiva es un borrador y se crea aunque haya otra (plan 032).
+        if (request.IsActive)
+        {
+            var existRbacActive = await repository.HasActiveRbacAsync(cancellationToken);
 
-        ApplicationGuard.IsTrue(existRbacActive, Errors.RbacActive);
+            ApplicationGuard.IsTrue(existRbacActive, Errors.RbacActive);
+        }
 
-        var rbac = RbacAggregate.Create(request.Id, request.Name, request.Description, user.IdUser);
+        var rbac = RbacAggregate.Create(request.Id, request.Name, request.Description, request.IsActive, user.IdUser);
 
         foreach (var permission in request.RbacPermissions)
         {

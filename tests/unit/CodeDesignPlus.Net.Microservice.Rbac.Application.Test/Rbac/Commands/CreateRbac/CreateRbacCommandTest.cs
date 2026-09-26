@@ -26,7 +26,7 @@ public class CreateRbacCommandTest
                 Resource = resource
             }
         };
-        var command = new CreateRbacCommand(Guid.Empty, "ValidName", "ValidDescription", rbacPermissions);
+        var command = new CreateRbacCommand(Guid.Empty, "ValidName", "ValidDescription", true, rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Id);
     }
@@ -44,7 +44,7 @@ public class CreateRbacCommandTest
                 Resource = resource
             }
         };
-        var command = new CreateRbacCommand(Guid.NewGuid(), string.Empty, "ValidDescription", rbacPermissions);
+        var command = new CreateRbacCommand(Guid.NewGuid(), string.Empty, "ValidDescription", true, rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Name);
     }
@@ -62,7 +62,7 @@ public class CreateRbacCommandTest
                 Resource = resource
             }
         };
-        var command = new CreateRbacCommand(Guid.NewGuid(), new string('a', 129), "ValidDescription", rbacPermissions);
+        var command = new CreateRbacCommand(Guid.NewGuid(), new string('a', 129), "ValidDescription", true, rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Name);
     }
@@ -80,7 +80,7 @@ public class CreateRbacCommandTest
                 Resource = resource
             }
         };
-        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", string.Empty, rbacPermissions);
+        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", string.Empty, true, rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Description);
     }
@@ -98,7 +98,7 @@ public class CreateRbacCommandTest
                 Resource = resource
             }
         };
-        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", new string('a', 513), rbacPermissions);
+        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", new string('a', 513), true, rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldHaveValidationErrorFor(x => x.Description);
     }
@@ -116,7 +116,7 @@ public class CreateRbacCommandTest
                 Resource = resource
             }
         };
-        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", "ValidDescription", rbacPermissions);
+        var command = new CreateRbacCommand(Guid.NewGuid(), "ValidName", "ValidDescription", true, rbacPermissions);
         var result = validator.TestValidate(command);
         result.ShouldNotHaveAnyValidationErrors();
     }

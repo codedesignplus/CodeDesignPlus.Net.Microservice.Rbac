@@ -53,7 +53,7 @@ public class CreateRbacCommandHandlerTest
                 Resource = resource
             }
         };
-        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", rbacPermissions);
+        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", true, rbacPermissions);
         var cancellationToken = CancellationToken.None;
 
         repositoryMock
@@ -82,7 +82,7 @@ public class CreateRbacCommandHandlerTest
                 Resource = resource
             }
         };
-        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", rbacPermissions);
+        var request = new CreateRbacCommand(Guid.NewGuid(), "Test", "Test Description", true, rbacPermissions);
         var cancellationToken = CancellationToken.None;
 
         repositoryMock
