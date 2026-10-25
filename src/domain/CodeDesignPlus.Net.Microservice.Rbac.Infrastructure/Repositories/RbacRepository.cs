@@ -48,4 +48,19 @@ public class RbacRepository(IServiceProvider serviceProvider, IOptions<MongoOpti
 
         return collection.Find(filter).AnyAsync(cancellationToken);
     }
+
+    /// <inheritdoc />
+    public async Task<bool> CreateIfAbsentAsync(RbacAggregate rbac, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await CreateAsync(rbac, cancellationToken);
+
+            return true;
+        }
+        catch (MongoWriteException exception) when (exception.WriteError?.Category == ServerErrorCategory.DuplicateKey)
+        {
+            return false;
+        }
+    }
 }

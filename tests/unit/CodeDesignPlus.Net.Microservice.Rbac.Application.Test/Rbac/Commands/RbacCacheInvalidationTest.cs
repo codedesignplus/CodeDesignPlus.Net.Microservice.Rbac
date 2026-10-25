@@ -78,6 +78,7 @@ public class RbacCacheInvalidationTest
     {
         repository.Setup(x => x.ExistsAsync<RbacAggregate>(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(false);
         repository.Setup(x => x.HasActiveRbacAsync(It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        repository.Setup(x => x.CreateIfAbsentAsync(It.IsAny<RbacAggregate>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
         var id = Guid.NewGuid();
         var request = new CreateRbacCommand(id, "PruebaGuia", "Prueba", true,

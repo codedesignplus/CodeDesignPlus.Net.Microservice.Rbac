@@ -5,10 +5,10 @@ public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext u
     public async Task Handle(CreateRbacCommand request, CancellationToken cancellationToken)
     {
         ApplicationGuard.IsNull(request, Errors.InvalidRequest);
-        
-        var exist = await repository.ExistsAsync<RbacAggregate>(request.Id, cancellationToken);
 
-        ApplicationGuard.IsTrue(exist, Errors.RbacAlreadyExists);
+        // Ya guardado por un envío anterior del mismo formulario: el reintento termina bien sin repetir nada (pendings/589).
+        if (await repository.ExistsAsync<RbacAggregate>(request.Id, cancellationToken))
+            return;
 
         // Solo puede haber una configuracion activa; una inactiva es un borrador y se crea aunque haya otra (plan 032).
         if (request.IsActive)
@@ -25,7 +25,9 @@ public class CreateRbacCommandHandler(IRbacRepository repository, IUserContext u
             rbac.AddPermission(permission.Id, permission.Role, permission.Resource, user.IdUser);
         }
 
-        await repository.CreateAsync(rbac, cancellationToken);
+        // Dos envíos que llegan a la vez pasan los dos la comprobación de arriba; el segundo choca contra el id y no publica.
+        if (!await repository.CreateIfAbsentAsync(rbac, cancellationToken))
+            return;
 
         // Un micro que consulto antes de existir el RBAC tiene cacheada su lista vacia.
         await cacheManager.InvalidateAsync(RbacCache.Keys(rbac));

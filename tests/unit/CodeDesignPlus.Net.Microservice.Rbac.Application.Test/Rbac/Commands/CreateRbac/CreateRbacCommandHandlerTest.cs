@@ -40,7 +40,7 @@ public class CreateRbacCommandHandlerTest
     }
 
     [Fact]
-    public async Task Handle_RbacAlreadyExists_ThrowsCodeDesignPlusException()
+    public async Task Handle_RbacAlreadyExists_IsTheRetryAndDoesNotCreateItAgain()
     {
         // Arrange
         var role = Role.Create(Guid.NewGuid(), "Admin");
@@ -60,12 +60,11 @@ public class CreateRbacCommandHandlerTest
             .Setup(x => x.ExistsAsync<RbacAggregate>(request.Id, cancellationToken))
             .ReturnsAsync(true);
 
-        // Act & Assert
-        var exception = await Assert.ThrowsAsync<CodeDesignPlusException>(() => handler.Handle(request, cancellationToken));
+        // Act: el mismo id es el reintento del mismo formulario (pendings/589, regla 66), no un error.
+        await handler.Handle(request, cancellationToken);
 
-        Assert.Equal(Errors.RbacAlreadyExists.GetMessage(), exception.Message);
-        Assert.Equal(Errors.RbacAlreadyExists.GetCode(), exception.Code);
-        Assert.Equal(Layer.Application, exception.Layer);
+        // Assert
+        repositoryMock.Verify(x => x.CreateIfAbsentAsync(It.IsAny<RbacAggregate>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -99,7 +98,7 @@ public class CreateRbacCommandHandlerTest
         await handler.Handle(request, cancellationToken);
 
         // Assert
-        repositoryMock.Verify(x => x.CreateAsync(It.IsAny<RbacAggregate>(), cancellationToken), Times.Once);
+        repositoryMock.Verify(x => x.CreateIfAbsentAsync(It.IsAny<RbacAggregate>(), cancellationToken), Times.Once);
         pubSubMock.Verify(x => x.PublishAsync(It.IsAny<List<RbacCreatedDomainEvent>>(), cancellationToken), Times.AtMostOnce);
     }
 }

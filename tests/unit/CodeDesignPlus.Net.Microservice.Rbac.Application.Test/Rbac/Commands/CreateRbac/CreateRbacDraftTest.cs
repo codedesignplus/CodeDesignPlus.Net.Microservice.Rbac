@@ -45,9 +45,9 @@ public class CreateRbacDraftTest
     public async Task UnBorradorSeCreaInactivoAunqueHayaOtraActiva()
     {
         RbacAggregate? saved = null;
-        repository.Setup(x => x.CreateAsync(It.IsAny<RbacAggregate>(), It.IsAny<CancellationToken>()))
+        repository.Setup(x => x.CreateIfAbsentAsync(It.IsAny<RbacAggregate>(), It.IsAny<CancellationToken>()))
             .Callback<RbacAggregate, CancellationToken>((rbac, _) => saved = rbac)
-            .Returns(Task.CompletedTask);
+            .ReturnsAsync(true);
 
         await handler.Handle(new CreateRbacCommand(Guid.NewGuid(), "Borrador", "Prueba", false, OnePermission()), CancellationToken.None);
 
@@ -60,9 +60,9 @@ public class CreateRbacDraftTest
     public async Task ElEventoDeCreacionLlevaElEstadoReal()
     {
         RbacAggregate? saved = null;
-        repository.Setup(x => x.CreateAsync(It.IsAny<RbacAggregate>(), It.IsAny<CancellationToken>()))
+        repository.Setup(x => x.CreateIfAbsentAsync(It.IsAny<RbacAggregate>(), It.IsAny<CancellationToken>()))
             .Callback<RbacAggregate, CancellationToken>((rbac, _) => saved = rbac)
-            .Returns(Task.CompletedTask);
+            .ReturnsAsync(true);
         IReadOnlyList<IDomainEvent>? published = null;
         pubsub.Setup(x => x.PublishAsync(It.IsAny<IReadOnlyList<IDomainEvent>>(), It.IsAny<CancellationToken>()))
             .Callback<IReadOnlyList<IDomainEvent>, CancellationToken>((events, _) => published = events)
