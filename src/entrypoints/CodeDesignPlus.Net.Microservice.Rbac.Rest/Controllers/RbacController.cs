@@ -1,3 +1,6 @@
+using CodeDesignPlus.Net.Core.Abstractions.Models.Pager;
+using CodeDesignPlus.Net.Microservice.Rbac.Application.Rbac.DataTransferObjects;
+
 namespace CodeDesignPlus.Net.Microservice.Rbac.Rest.Controllers;
 
 /// <summary>
@@ -16,6 +19,7 @@ public class RbacController(IMediator mediator, IMapper mapper) : ControllerBase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>Collection of Rbac.</returns>
     [HttpGet]
+    [ProducesResponseType<Pagination<RbacDto>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetRbac([FromQuery] C.Criteria criteria, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetAllRbacQuery(criteria), cancellationToken);
@@ -30,6 +34,7 @@ public class RbacController(IMediator mediator, IMapper mapper) : ControllerBase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The Rbac.</returns>
     [HttpGet("{id}")]
+    [ProducesResponseType<RbacDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetRbacById(Guid id, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetRbacByIdQuery(id), cancellationToken);
